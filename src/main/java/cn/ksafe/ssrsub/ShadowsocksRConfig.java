@@ -4,14 +4,15 @@ public class ShadowsocksRConfig {
 
     private String server;
     private int server_port;
-    private String protocal;
+    private String protocol;
     private String method;
     private String obfs;
     private String password;
     private String obfs_param;
-    private String protocal_param;
+    private String protocol_param;
     private String remarks;
     private String group;
+    private String server_name;
 
     public String getServer() {
         return server;
@@ -29,12 +30,12 @@ public class ShadowsocksRConfig {
         this.server_port = server_port;
     }
 
-    public String getProtocal() {
-        return protocal;
+    public String getProtocol() {
+        return protocol;
     }
 
-    public void setProtocal(String protocal) {
-        this.protocal = protocal;
+    public void setProtocol(String protocol) {
+        this.protocol = protocol;
     }
 
     public String getMethod() {
@@ -69,12 +70,12 @@ public class ShadowsocksRConfig {
         this.obfs_param = obfs_param;
     }
 
-    public String getProtocal_param() {
-        return protocal_param;
+    public String getProtocol_param() {
+        return protocol_param;
     }
 
-    public void setProtocal_param(String protocal_param) {
-        this.protocal_param = protocal_param;
+    public void setProtocol_param(String protocol_param) {
+        this.protocol_param = protocol_param;
     }
 
     public String getRemarks() {
@@ -91,5 +92,13 @@ public class ShadowsocksRConfig {
 
     public void setGroup(String group) {
         this.group = group;
+    }
+
+    public String getServer_name() {
+        return server_name;
+    }
+
+    public void setServer_name(String server_name) {
+        this.server_name = server_name;
     }
 }

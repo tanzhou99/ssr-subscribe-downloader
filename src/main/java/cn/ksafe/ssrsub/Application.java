@@ -21,7 +21,7 @@ public class Application {
         options.addOption(urlOpt);
 
         Option groupOpt = new Option("g", "group", true, "input shadowsocksr group");
-        groupOpt.setRequired(true);
+        groupOpt.setRequired(false);
         options.addOption(groupOpt);
 
         Option savePathOpt = new Option("s", "save-path", true, "shadowsocksr config save path");
