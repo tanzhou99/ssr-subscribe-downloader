@@ -59,11 +59,7 @@ class SSRParser {
         return remarks;
     }
 
-    static Map<String, ShadowsocksRConfig> parser(String content) {
-        return parser(content, "");
-    }
-
-    static Map<String, ShadowsocksRConfig> parser(String content, String group) {
+    static Map<String, ShadowsocksRConfig> parser(String content, String group, boolean useRemarks, boolean noPrefix) {
         Map<String, ShadowsocksRConfig> map = new Hashtable<>();
         Matcher matcher = pattern_ssr.matcher(decode(content));
         while (matcher.find()) {
@@ -103,15 +99,22 @@ class SSRParser {
             } else {
                 ssr.setGroup(group);
             }
-            addToMap(map, ssr);
+
+            if (useRemarks) {
+                if (!map.containsKey(ssr.getRemarks())) {
+                    map.put(ssr.getRemarks(), ssr);
+                }
+                continue;
+            }
+
+            String key = ssr.getServer().substring(0, ssr.getServer().indexOf("."));
+            if (!noPrefix) {
+                key = ssr.getGroup() + "-" + key;
+            }
+            if (!map.containsKey(key)) {
+                map.put(key, ssr);
+            }
         }
         return map;
-    }
-
-    private static void addToMap(Map<String, ShadowsocksRConfig> map, ShadowsocksRConfig ssr) {
-        String key = ssr.getGroup() + "-" + ssr.getServer().substring(0, ssr.getServer().indexOf("."));
-        if (!map.containsKey(key)) {
-            map.put(key, ssr);
-        }
     }
 }

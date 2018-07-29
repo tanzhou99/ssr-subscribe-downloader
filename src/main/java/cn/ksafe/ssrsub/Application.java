@@ -28,6 +28,14 @@ public class Application {
         savePathOpt.setRequired(false);
         options.addOption(savePathOpt);
 
+        Option useRemarksOpt = new Option("r", "use-remarks", false, "filename use remarks");
+        useRemarksOpt.setRequired(false);
+        options.addOption(useRemarksOpt);
+
+        Option noPrefixOpt = new Option("n", "no-prefix", false, "not add prefix to filename");
+        noPrefixOpt.setRequired(false);
+        options.addOption(noPrefixOpt);
+
         CommandLineParser parser = new BasicParser();
         HelpFormatter formatter = new HelpFormatter();
         CommandLine cmd = null;
@@ -42,17 +50,19 @@ public class Application {
 
         String url = cmd.getOptionValue("url");
         String group = cmd.getOptionValue("group");
-        String savePath = cmd.getOptionValue("save-path","/etc/shadowsocksr");
+        String savePath = cmd.getOptionValue("save-path", "/etc/shadowsocksr");
+        boolean useRemarks = cmd.hasOption("use-remarks");
+        boolean noPrefix = cmd.hasOption("no-prefix");
 
 
         String content = HttpRequest.sendGetRequest(url);
-        Map<String, ShadowsocksRConfig> map = SSRParser.parser(content, group);
+        Map<String, ShadowsocksRConfig> map = SSRParser.parser(content, group, useRemarks, noPrefix);
         Gson gson = new Gson();
         for (String key : map.keySet()) {
             log.info(key + ": " + gson.toJson(map.get(key)));
             File file = new File(savePath.replaceAll("/$", "") + "/" + key + ".json");
             try {
-                FileUtils.writeStringToFile(file, gson.toJson(map.get(key)),"utf-8");
+                FileUtils.writeStringToFile(file, gson.toJson(map.get(key)), "utf-8");
             } catch (IOException e) {
                 log.warn(e);
             }
